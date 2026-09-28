@@ -1,0 +1,2 @@
+# /m4u is no longer labelled by the base policy.
+genfscon proc /m4u u:object_r:mtk_m4u_proc:s0

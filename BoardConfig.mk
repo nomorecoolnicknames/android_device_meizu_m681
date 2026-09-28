@@ -67,6 +67,10 @@ AB_OTA_UPDATER := false
 # Properties
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 
+# SELinux
+# Default policy version 30: version 29 cannot hold the ioctl extended
+# permission rules.
+
 # Platform policy goes in BOARD_PLAT_SEPOLICY_DIRS, vendor policy in
 # BOARD_SEPOLICY_DIRS; both live in the device tree.
 BOARD_PLAT_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/plat
