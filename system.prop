@@ -1,0 +1,59 @@
+ro.forge.meizu.expect_codename=m681
+# RIL
+# The arguments contain a space, so they cannot go through PRODUCT_PROPERTY_OVERRIDES.
+rild.libargs=-d /dev/ttyC0
+
+# Camera
+# Keep preview on the RRZO path and disable unstable MTK feature paths.
+camera.disable_zsl_mode=1
+camera.zsdmode=0
+persist.m681.camera.safe_params=1
+persist.m681.cam.safe=1
+persist.m681.cam.rel_fail=1
+persist.m681.cam.skip_set=1
+persist.m681.cam.no_torch=0
+persist.m681.cam.force640=0
+persist.m681.cam.no_fullraw=1
+persist.m681.cam.p1path=2
+persist.m681.cam.pre_p1magic=1
+persist.m681.cam.sync_tuning=1
+persist.m681.cam.deq_retry=0
+debug.featurepipe.enable=0
+debug.tworunpass2.enable=0
+debug.lowPowerVR.enable=0
+debug.pass1.pdafon=0
+debug.pass1.rawtype=0
+debug.forceFPS.enable=0
+debug.mtk_cam_zsdmfb_support=0
+debug.mtk_cam_zsdhdr_support=0
+ro.mtk_zsdhdr_support=0
+debug.camera.vfb.disable=1
+debug.camera.eis.disable=1
+debug.eis.EMEnabled=0
+debug.eis.dump=0
+debug.eisDrv.dump=0
+debug.eis.disable=1
+persist.camera.eis.enable=0
+persist.camera.eis.disable=1
+persist.camera.vfb.enable=0
+persist.camera.vfb.disable=1
+cam.dumpnpipelog.enable=0
+camera.featurepipe.dumpvfb=0
+
+# IMS / VoLTE
+# Read by mtk-ril at startup and by ImsManager, so they must be in the image.
+# The platform supports IMS and VoLTE.
+persist.mtk_ims_support=1
+persist.mtk_volte_support=1
+# VoLTE enabled by the user; with 0 the RIL sends AT+EIMSVOLTE=0 itself.
+persist.mtk.volte.enable=1
+# The same setting for ImsService, which reads the vendor-namespaced name.
+persist.vendor.mtk.volte.enable=1
+# Force the device side of the VoLTE-available gate; the network side is not
+# overridden.
+persist.dbg.volte_avail_ovr=1
+# ePDG off: the vendor policy rejects the framework's IMS bearer request and
+# the APN is then marked permanently failed.
+persist.mtk_epdg_support=0
+# Socket MAL dials for its AT channel (rilproxy-mal is not used).
+ril.mal.socket=rild-mal

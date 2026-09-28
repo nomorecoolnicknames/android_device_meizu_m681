@@ -1,0 +1,22 @@
+// libsfleaktrack - LD_PRELOAD diagnostic for SurfaceFlinger graphics buffer
+// leaks. Not in PRODUCT_PACKAGES: build with `m libsfleaktrack` and install by
+// hand. Inert unless preloaded into surfaceflinger with debug.sfleak.enable=1.
+cc_library_shared {
+    name: "libsfleaktrack",
+
+    srcs: ["sfleaktrack.cpp"],
+
+    shared_libs: [
+        "libcutils",
+        "liblog",
+    ],
+
+    // surfaceflinger is 64-bit only.
+    compile_multilib: "64",
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-unused-parameter",
+    ],
+}

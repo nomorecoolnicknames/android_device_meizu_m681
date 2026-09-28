@@ -1,0 +1,18 @@
+# MTK msensord: bridges /dev/gsensor, /dev/gyroscope, /dev/m_alsps_misc and
+# /dev/MAGNETIC to the sensors HAL.
+
+on early-fs
+    chown system system /dev/gsensor
+    chmod 0660 /dev/gsensor
+    chown system system /dev/gyroscope
+    chmod 0660 /dev/gyroscope
+    chown system system /dev/m_alsps_misc
+    chmod 0660 /dev/m_alsps_misc
+    chown system system /dev/MAGNETIC
+    chmod 0660 /dev/MAGNETIC
+
+service msensord /system/vendor/bin/msensord
+    class core
+    user system
+    group system input
+    oneshot
