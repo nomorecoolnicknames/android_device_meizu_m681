@@ -1,0 +1,47 @@
+# First-stage mounts use by-name paths: first stage init matches the basename
+# of the source against the partition name. The rest of the file uses raw nodes.
+# A kernel without PARTNAME needs raw nodes (mmcblk0p29, mmcblk0p3) here plus
+# androidboot.partition_map=mmcblk0p29,mmcblk0p29;mmcblk0p3,mmcblk0p3.
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/system /system ext4 ro,barrier=1                                     wait,first_stage_mount
+
+# /vendor is the stock "custom" partition (p3, 512 MiB).
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/custom /vendor ext4 ro,barrier=1                                     wait,first_stage_mount
+
+/dev/block/mmcblk0p31      /data        ext4    noatime,nosuid,nodev,noauto_da_alloc,discard                      wait,check,formattable
+# nofail: a failed mount would make mount_all fail, ro.crypto.state would never
+# be set and zygote would not start. "formattable" only covers a wiped partition.
+/dev/block/mmcblk0p30      /cache       ext4    noatime,nosuid,nodev,noauto_da_alloc,discard                      wait,check,formattable,nofail
+
+# MediaTek platform partitions; the MTK blobs and nvram tools look these mount
+# points up by name. nofail for the same reason as /cache: the device still
+# boots and the log shows the missing NVRAM instead of a silent boot loop.
+/dev/block/mmcblk0p11      /protect_f   ext4    noatime,nosuid,nodev,noauto_da_alloc,commit=1,nodelalloc          wait,check,formattable,nofail
+/dev/block/mmcblk0p12      /protect_s   ext4    noatime,nosuid,nodev,noauto_da_alloc,commit=1,nodelalloc          wait,check,formattable,nofail
+/dev/block/mmcblk0p7       /nvdata      ext4    noatime,nosuid,nodev,noauto_da_alloc,discard                      wait,check,formattable,nofail
+
+/dev/block/mmcblk0p19      /nvram       emmc    defaults                                                          defaults
+/dev/block/mmcblk0p8       /proinfo     emmc    defaults                                                          defaults
+/dev/block/mmcblk0p5       /persistent  emmc    defaults                                                          defaults
+/dev/block/mmcblk0p20      /bootloader  emmc    defaults                                                          defaults
+/dev/block/mmcblk0p21      /bootloader2 emmc    defaults                                                          defaults
+/dev/block/mmcblk0p2       /misc        emmc    defaults                                                          defaults
+/dev/block/mmcblk0p22      /boot        emmc    defaults                                                          defaults
+/dev/block/mmcblk0p1       /recovery    emmc    defaults                                                          defaults
+/dev/block/mmcblk0p23      /logo        emmc    defaults                                                          defaults
+/dev/block/mmcblk0p4       /expdb       emmc    defaults                                                          defaults
+/dev/block/mmcblk0p6       /ppl         emmc    defaults                                                          defaults
+/dev/block/mmcblk0p13      /seccfg      emmc    defaults                                                          defaults
+/dev/block/mmcblk0p15      /md1img      emmc    defaults                                                          defaults
+/dev/block/mmcblk0p16      /md1dsp      emmc    defaults                                                          defaults
+/dev/block/mmcblk0p17      /md1arm7     emmc    defaults                                                          defaults
+/dev/block/mmcblk0p18      /md3img      emmc    defaults                                                          defaults
+/dev/block/mmcblk0p24      /tee1        emmc    defaults                                                          defaults
+/dev/block/mmcblk0p25      /tee2        emmc    defaults                                                          defaults
+/dev/block/mmcblk0p26      /secro       emmc    defaults                                                          defaults
+
+# Removable storage
+/devices/mtk-msdc.0/11240000.msdc1*     auto    auto    defaults    voldmanaged=sdcard1:auto
+/devices/soc/11270000.usb3_xhci*        auto    auto    defaults    voldmanaged=usbotg:auto
+
+# zram: 768 MiB (about 1.78 GB RAM total).
+/dev/block/zram0           none         swap    defaults                                                          zramsize=805306368

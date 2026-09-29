@@ -1,0 +1,4 @@
+# Placeholder vendor sepolicy for m681.
+#
+# SELinux is permissive and neverallows are ignored (see BoardConfig.mk);
+# rules will be added from real avc denials.

@@ -1,0 +1,15 @@
+#
+# vendor.prop for m681
+#
+
+# VINTF
+# The prebuilt 4.9 kernel lacks some configs required by the FCM 3 kernel
+# matrix (CONFIG_USB_CONFIGFS_F_{ACC,AUDIO_SRC,FS,MIDI}). Skip the kernel part
+# of the boot-time VINTF check to avoid the "internal problem" dialog.
+ro.vendor.vintf.legacy_kernel=true
+
+# Audio
+# audio.primary.mt6755.so is a Nougat build whose audio_hw_device structs end
+# before the fields newer HIDL wrappers read; the patched audio HAL then
+# reports NOT_SUPPORTED instead of reading past the struct.
+ro.vendor.audio.legacy_nougat_abi=1

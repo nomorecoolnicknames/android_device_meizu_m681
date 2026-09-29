@@ -1,0 +1,7 @@
+// Soong namespace for the m681 device tree.
+//
+// Soong has no TARGET_DEVICE guard: modules in the root namespace get install
+// rules in every product of the workspace. A namespace is only exported to Make
+// for products that list it in PRODUCT_SOONG_NAMESPACES (see device.mk).
+soong_namespace {
+}
