@@ -1,6 +1,6 @@
 # Meizu M3 Note (m681)
 
-Device tree for the Meizu M3 Note (M681 board) for LineageOS 18.1.
+Device tree for the Meizu M3 Note (M681 board) for LineageOS 20.0.
 
 ## Specifications
 
@@ -25,15 +25,17 @@ Device tree for the Meizu M3 Note (M681 board) for LineageOS 18.1.
 
 ## Building
 
-Sync the LineageOS 18.1 source and add these repositories:
+Sync the LineageOS 20.0 source and add the local manifest:
 
-- `device/meizu/m681` (this repository)
-- `vendor/meizu/m681` (proprietary files for this branch)
-- `kernel/meizu/m681` (kernel source, used for headers)
-- the prebuilt kernel at `device/meizu/m681/prebuilt/Image.gz-dtb`
-- the legacy MediaTek framework and HAL adaptations for this platform
+```sh
+repo init -u https://github.com/LineageOS/android.git -b lineage-20.0 --git-lfs
+git clone https://github.com/nomorecoolnicknames/android_local_manifests_meizu -b lineage-20.0 .repo/local_manifests
+repo sync
+```
 
-Then build:
+The build also needs the prebuilt kernel at
+`device/meizu/m681/prebuilt/Image.gz-dtb` and the legacy MediaTek framework
+and HAL adaptations for this platform.
 
 ```sh
 source build/envsetup.sh
