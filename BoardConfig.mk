@@ -8,6 +8,31 @@ include vendor/meizu/m681/BoardConfigVendor.mk
 # Recovery partition is 16 MiB, not the 32 MiB MT6755 common default.
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216
 
+# Shims
+# Legacy libgui/libui symbols needed by the MTK display and camera blobs
+# (createBufferQueue with IGraphicBufferAlloc, IDumpTunnel, GraphicBufferMapper::lock).
+TARGET_LD_SHIM_LIBS += \
+    /vendor/lib/libcam_utils.so|/vendor/lib/libmtkshim_gui.so \
+    /vendor/lib/libcam.client.so|/vendor/lib/libmtkshim_gui.so \
+    /vendor/lib/libcam.camnode.so|/vendor/lib/libmtkshim_gui.so \
+    /vendor/lib/libeffecthal.base.so|/vendor/lib/libmtkshim_gui.so \
+    /vendor/lib/libjni_lomoeffect.so|/vendor/lib/libmtkshim_gui.so \
+    /vendor/lib/libvfb_render.so|/vendor/lib/libmtkshim_gui.so \
+    /vendor/lib/libMtkOmxVenc.so|/vendor/lib/libmtkshim_gui.so \
+    /vendor/lib/libmtk_mmutils.so|/vendor/lib/libmtkshim_gui.so \
+    /vendor/lib/libshowlogo.so|/vendor/lib/libmtkshim_gui.so \
+    /vendor/lib/libgui_ext.so|/vendor/lib/libmtkshim_gui.so \
+    /vendor/lib/libui_ext.so|/vendor/lib/libmtkshim_gui.so \
+    /vendor/lib64/libcam_utils.so|/vendor/lib64/libmtkshim_gui.so \
+    /vendor/lib64/libcam.client.so|/vendor/lib64/libmtkshim_gui.so \
+    /vendor/lib64/libcam.camnode.so|/vendor/lib64/libmtkshim_gui.so \
+    /vendor/lib64/libeffecthal.base.so|/vendor/lib64/libmtkshim_gui.so \
+    /vendor/lib64/libjni_lomoeffect.so|/vendor/lib64/libmtkshim_gui.so \
+    /vendor/lib64/libvfb_render.so|/vendor/lib64/libmtkshim_gui.so \
+    /vendor/lib64/libmtk_mmutils.so|/vendor/lib64/libmtkshim_gui.so \
+    /vendor/lib64/libgui_ext.so|/vendor/lib64/libmtkshim_gui.so \
+    /vendor/lib64/libui_ext.so|/vendor/lib64/libmtkshim_gui.so
+
 # libmpe.sensorlistener.so needs the Nougat SensorManager symbols (moved to
 # libsensor in Oreo); mtk_agpsd needs ICU 56 ucnv_* symbols. Both are 32-bit.
 TARGET_LD_SHIM_LIBS += \
