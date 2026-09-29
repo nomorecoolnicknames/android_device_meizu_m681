@@ -47,6 +47,19 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/init/init.m681.wifi.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.m681.wifi.rc
 
+# Init
+# mount_all, /data/nvram -> /nvdata, the configfs adb gadget and ueventd rules.
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/etc/init/hw/init.mt6755.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.mt6755.rc \
+    $(LOCAL_PATH)/rootdir/etc/init/hw/init.mt6755.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.mt6755.usb.rc \
+    $(LOCAL_PATH)/rootdir/etc/ueventd.mt6755.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
+
+# ADB
+# Insecure adb until display and touch work. The vendor build.prop is loaded
+# after the system one, so this overrides ro.adb.secure=1.
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.adb.secure=0
+
 # HIDL
 # AOSP passthrough implementations and binderized services in /vendor, each
 # wrapping an MT6755 blob. Not included: bluetooth@1.0 (no 64-bit
@@ -78,7 +91,7 @@ PRODUCT_PACKAGES += \
     android.hardware.gatekeeper@1.0-service.software \
     android.hardware.drm@1.0-impl \
     android.hardware.drm@1.0-service \
-    android.hardware.drm@1.3-service.clearkey \
+    android.hardware.drm@1.4-service.clearkey \
     android.hardware.gnss@1.0-impl \
     android.hardware.gnss@1.0-service \
     android.hardware.camera.provider@2.4-impl \

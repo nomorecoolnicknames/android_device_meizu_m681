@@ -119,6 +119,9 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.mt6755
 # A LineageOS recovery image does not fit the 16 MiB recovery partition; the
 # vendor image would also pull it in, so no recovery is built.
 TARGET_NO_RECOVERY := true
+# Mount points for the nofail fstab entries: /nvdata (p7), /protect_f (p11),
+# /protect_s (p12). The root is the system image, so they must be created there.
+BOARD_ROOT_EXTRA_FOLDERS := nvdata protect_f protect_s
 BOARD_SUPPRESS_SECURE_ERASE := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
 

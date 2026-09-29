@@ -38,8 +38,3 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     PRIVATE_BUILD_DESC="meizu_m3note-user 7.0 NRD90M 1510540088 release-keys"
 
 BUILD_FINGERPRINT := Meizu/meizu_m3note/m3note:7.0/NRD90M/1510540088:user/release-keys
-
-# This branch builds only against the API 30 platform.
-ifneq ($(PLATFORM_SDK_VERSION),30)
-$(error m681 lineage-18.1 requires PLATFORM_SDK_VERSION=30)
-endif

@@ -1,0 +1,35 @@
+# Minimal device init: mounts the non first-stage partitions and sets up
+# /nvdata. Modem, connectivity, sensors and camera are not covered yet.
+
+import /vendor/etc/init/hw/init.mt6755.usb.rc
+
+on init
+    # The SkiaGL RenderEngine aborts on the Nougat-era Mali r5p0 driver; use
+    # the GLES backend. Set here, a vendor build.prop entry is ignored.
+    setprop debug.renderengine.backend gles
+
+on fs
+    # Arm "boot-recovery" in the BCB of para (p2, /misc) so that any reset
+    # before boot_completed lands in recovery; cleared below. Use the raw node:
+    # init's write opens with O_NOFOLLOW.
+    write /dev/block/mmcblk0p2 boot-recovery
+    # The ramdisk fstab is gone after switch_root; use the vendor copy.
+    mount_all /vendor/etc/fstab.mt6755
+
+on post-fs
+    chown system system /protect_f
+    chmod 0770 /protect_f
+    chown system system /protect_s
+    chmod 0770 /protect_s
+
+on post-fs-data
+    # /data/nvram is a symlink to the nvdata partition on this device.
+    chown root system /nvdata
+    chmod 0771 /nvdata
+    symlink /nvdata /data/nvram
+    mkdir /nvdata/media 0771 media audio
+    restorecon_recursive /nvdata
+
+on property:sys.boot_completed=1
+    # Clear the BCB armed in "on fs".
+    exec -- /system/bin/dd if=/dev/zero of=/dev/block/mmcblk0p2 bs=32 count=1

@@ -1,0 +1,29 @@
+# configfs USB gadget for the 4.9 kernel (android_usb is disabled).
+# init.usb.configfs.rc only drives an existing g1; creating g1, ffs.adb and the
+# functionfs mount is up to the device. The UDC is the mu3d "musb-hdrc".
+# The gadget is created on early-fs so adb comes up even if mount_all fails;
+# sys.usb.configfs is set on boot to override the platform default of 0.
+
+on early-init
+    # musb FunctionFS AIO stalls bulk-IN; force the legacy read/write path.
+    setprop sys.usb.ffs.aio_compat 1
+
+on early-fs
+    mkdir /config/usb_gadget/g1 0770 shell shell
+    write /config/usb_gadget/g1/idVendor 0x2a45
+    write /config/usb_gadget/g1/idProduct 0x201c
+    mkdir /config/usb_gadget/g1/strings/0x409 0770
+    write /config/usb_gadget/g1/strings/0x409/serialnumber ${ro.serialno}
+    write /config/usb_gadget/g1/strings/0x409/manufacturer Meizu
+    write /config/usb_gadget/g1/strings/0x409/product m681
+    mkdir /config/usb_gadget/g1/configs/b.1 0770
+    mkdir /config/usb_gadget/g1/configs/b.1/strings/0x409 0770
+    write /config/usb_gadget/g1/configs/b.1/MaxPower 500
+    mkdir /config/usb_gadget/g1/functions/ffs.adb
+    mkdir /dev/usb-ffs 0770 shell shell
+    mkdir /dev/usb-ffs/adb 0770 shell shell
+    mount functionfs adb /dev/usb-ffs/adb uid=2000,gid=2000
+
+on boot
+    setprop sys.usb.controller musb-hdrc
+    setprop sys.usb.configfs 1
