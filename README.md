@@ -1,34 +1,37 @@
 # Meizu M3 Note (m681)
 
-Device tree for the Meizu M3 Note (M681 board) for LineageOS 16.0.
+Device tree for the Meizu M3 Note (M681 board) for LineageOS 18.1.
 
 ## Specifications
 
 | | |
 | --- | --- |
 | SoC | MediaTek MT6755 (Helio P10) |
+| CPU | 8x Cortex-A53 |
+| GPU | Mali-T860 MP2 |
 | Display | 1080 x 1920 |
-| Kernel | 3.18 prebuilt |
-| Fingerprint | Goodix GF516M |
+| Kernel | 4.9 prebuilt (`m681_49_defconfig`) |
+| Shipped Android | 7.0 (Flyme 6.2.0.2A) |
 
 ## Status
 
-- With a 4.4 kernel: boot, display, touch, Wi-Fi, SIM1/LTE and sensors working
-- With a 4.4 kernel: camera, microphone/call audio and suspend not working
-- With the 3.18 prebuilt kernel selected here: untested
-- Bluetooth, fingerprint, GPS: untested
+- Treble product, vendor layout and compatibility configuration: present
+- Boot with the current kernel: untested
+- Display, touch, Wi-Fi, Bluetooth: untested
+- SIM, LTE, calls: untested
+- Camera, audio, sensors, fingerprint: untested
+- GPS: untested
 - SELinux: permissive
 
 ## Building
 
-Sync the LineageOS 16.0 source (JDK 8) and add these repositories:
+Sync the LineageOS 18.1 source and add these repositories:
 
 - `device/meizu/m681` (this repository)
-- `device/meizu/mt6755-common`
 - `vendor/meizu/m681` (proprietary files for this branch)
-- `vendor/mediatek` with the MTK RIL/HAL integration and telephony headers
-- `kernel/meizu/meizu_m6/kernel-3.18` (kernel source, used for headers)
-- the prebuilt kernel at `device/meizu/m681/prebuilt-kernel/Image.gz-dtb`
+- `kernel/meizu/m681` (kernel source, used for headers)
+- the prebuilt kernel at `device/meizu/m681/prebuilt/Image.gz-dtb`
+- the legacy MediaTek framework and HAL adaptations for this platform
 
 Then build:
 
@@ -37,9 +40,5 @@ source build/envsetup.sh
 breakfast m681
 brunch m681
 ```
-
-`M681_SFOS_BUILD=1` builds the kernel from source instead; it needs
-`M681_KERNEL_SOURCE_OVERRIDE` or `M681_M6GRAFT_KERNEL_SOURCE` pointing to the
-3.18.140 kernel source and uses `m681_sfos_defconfig`.
 
 More information: [ReMeizu](https://github.com/nomorecoolnicknames/remeizu).
